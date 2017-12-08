@@ -13,10 +13,13 @@
 
 void kernel_main(void)
 {
-    const char *welcome = " ";
-    clear_screen(0x09);
-    char t[15];
-    //itoc(123456789, (char*)t);
-    print_string((const char*)t,4);
+    const char *welcome = "hello worlds!!!";
+    color_screen(0x07);
+    print_string(welcome,15);
+    set_color(0x09);
+    print_string("\nwel\tcome to narnia",-1);
+    print_string("\nwe\tcome to narnia",-1);
+    print_string("\nwedfl\tcome to narnia",-1);
+    print_string("\nwdel\tcome to narnia",-1);
     return;
 }

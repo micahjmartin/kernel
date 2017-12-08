@@ -4,6 +4,7 @@
  */
 
 #include "libme.h"
+#include "string.h"
 
 // Global Variables for printing
 int cursor_x = 0;
@@ -65,7 +66,7 @@ void clear_screen(void)
     return;
 }
 
-// Set the screen with a given color
+// Clear the screen with a given color
 void color_screen(unsigned int color)
 {
     screen_color = color;
@@ -73,24 +74,37 @@ void color_screen(unsigned int color)
     return;
 }
 
+// Set the color
+void set_color(unsigned int color)
+{
+    screen_color = color;
+    return;
+}
+
 // Print a string but leave the color the same
 void print_string(const char *str, int len)
 {
     int i = 0;
+    if(len == -1)
+    {
+	len = strlen(str);
+    }
     // Make sure we arnt over writing the screen array
-    /*if(len > VIDEO_MEMORY_LIM)
+    if(len > VIDEO_MEMORY_LIM)
     {
 	len = VIDEO_MEMORY_LIM;
     }
-    */
+    
     // Print the character keeping the color the same
     while(i < len)
     {
-	/*if(str[i] == '\0')
+	if(str[i] == '\0')
 	{
 	    break;
 	}
-	*/
+	
+	//screen[i*2] = str[i];
+	//screen[i*2+1] = screen_color;
 	put_ch(str[i]);
 	i = i + 1;
     }

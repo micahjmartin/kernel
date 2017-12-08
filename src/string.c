@@ -36,5 +36,5 @@ void itoc(int i, char* retval)
 	i = i / base;
 	pos = pos + 1;
     }
-    //string_reverse(retval);
+    string_reverse(retval);
 }

@@ -1,5 +1,5 @@
 CFLAGS=-Wall -Wextra -pedantic -m32
-OBJS=kernel.o libme.o
+OBJS=kernel.o libme.o string.o
 
 all: $(OBJS)
 

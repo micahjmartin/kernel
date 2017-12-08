@@ -16,6 +16,7 @@ void kernel_main(void)
     set_color(0x9F);
     clear_screen();
     set_cursor_col(10);
+    set_cursor_wrap(15);
     print_string("Welcome to Micahs Kernel\n", -1);
     print_string("Welcome to Micahs Kernel\n", -1);
     print_string("Welcome to Micahs Kernel\n", -1);

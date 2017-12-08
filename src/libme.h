@@ -8,11 +8,19 @@
 // Colors of screen (FG_BG)
 #define WHITE_BLACK 0x07
 
-void set_cursor(int x, int y);
+void init_cur(void);
 
 void set_color(unsigned int color);
 
+void set_cursor(int x, int y);
+
+void set_cursor_x(int x);
+
+void set_cursor_y(int y);
+
 void set_cursor_col(int x);
+
+void set_cursor_wrap(int x);
 
 void put_ch(char ch);
 

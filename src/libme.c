@@ -9,10 +9,18 @@
 // Global Variables for printing
 int cursor_x = 0;
 int cursor_y = 0;
-int cursor_col = 0; // When we goto a \n, where to set teh cursor at
+int cursor_col = 0; // When we goto a \n, where to set the cursor at
+int IO_CUR_WRAP = SCREEN_WIDTH; // Position to wrap the cursor
 unsigned int screen_color = 0x07;
 char *screen = (char*)VIDEO_MEMORY; // Start of the video array
 unsigned int screen_limit = VIDEO_MEMORY_LIM; // Max indexes for the Vidmem
+
+void init_cur(void)
+{
+    set_cursor(0,0);
+    set_cursor_wrap(SCREEN_WIDTH);
+    set_cursor_col(0);
+}
 
 /*
  * Put a character onto the screen wherever the cursor is
@@ -48,14 +56,14 @@ void put_ch(char c)
 	    cursor_x = cursor_col;
 	    break;
 	default :
-	    pos = (cursor_y * SCREEN_WIDTH) + cursor_x; // Calc the new pos
+	    pos = (cursor_y * IO_CUR_WRAP) + cursor_x; // Calc the new pos
 	    screen[pos*2] = c;
 	    screen[pos*2+1] = screen_color;
 	    cursor_x = cursor_x + 1;
 	    break;
     }
-    // Make sure we havent passed 80
-    if(cursor_x >= SCREEN_WIDTH)
+    // Make sure we havent passed the wrap
+    if(cursor_x >= IO_CUR_WRAP)
     {
 	cursor_y = cursor_y + 1;
 	cursor_x = cursor_col;
@@ -64,12 +72,30 @@ void put_ch(char c)
 
 void set_cursor(int x, int y)
 {
+    set_cursor_x(x);
+    set_cursor_y(y);
+}
+void set_cursor_x(int x)
+{
     cursor_x = x % SCREEN_WIDTH;
+}
+void set_cursor_y(int y)
+{
     if (y >= SCREEN_HEIGHT)
     {
 	y = SCREEN_HEIGHT - 1;
     }
     cursor_y = y;
+}
+
+void set_cursor_wrap(int x)
+{
+    if(x < SCREEN_WIDTH)
+    {
+	IO_CUR_WRAP = x;
+    } else {
+	IO_CUR_WRAP = SCREEN_WIDTH;
+    }
 }
 
 void set_cursor_col(int x)

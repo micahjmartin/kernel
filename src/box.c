@@ -2,6 +2,7 @@
 
 void draw_box(int width, int height, unsigned int color, int shadow)
 {
+    init_cur();
     int x_start = (SCREEN_WIDTH - width)/2; // Calculate the x start
     int y_start = (SCREEN_HEIGHT - height)/2;
     int x = x_start;

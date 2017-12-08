@@ -1,20 +1,23 @@
 CFLAGS=-Wall -Wextra -pedantic -m32
 AFLAGS=-f elf32
 LDFLAGS=-m elf_i386
-OBJS=kernel.o libme.o
+DIRS := boot src
+all: make_all objs link clean
 
-all: link clean
+make_all: 
+	+$(MAKE) -C boot
+	+$(MAKE) -C src
 
-%.o: %.c $(DEPS)
-	gcc $(CFLAGS) $< -c -o $@
-%.o: %.asm
-	nasm $(AFLAGS) $< -o $@
+objs:
+	$(eval OBJS := $(foreach d,$(DIRS),$(wildcard $(d)/*.o)))
 
-link: grub.o $(OBJS)
-	ld -T link.ld $(LDFLAGS) -o kernel.bin grub.o $(OBJS)
+link:
+	ld -T boot/link.ld $(LDFLAGS) -o bin/kernel.bin $(OBJS)
 
 run:
-	qemu-system-i386 -kernel kernel.bin
+	qemu-system-i386 -kernel bin/kernel.bin
 
 clean:
-	rm -f *.o
+	+$(MAKE) -C boot clean
+	+$(MAKE) -C src clean
+

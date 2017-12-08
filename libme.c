@@ -46,7 +46,7 @@ void print_string(const char *str, unsigned int len)
     // Make sure we arnt over writing the screen array
     if(len > VIDEO_MEMORY_LIM)
     {
-	len = VIDEO_MEMORY_LEN;
+	len = VIDEO_MEMORY_LIM;
     }
     // Print the character keeping the color the same
     while(i < len)

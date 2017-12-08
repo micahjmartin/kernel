@@ -6,17 +6,17 @@
 #include "kernel.h"
 #include "libme.h"
 #include "string.h"
+#include "box.h"
 
-// Set the screen start
-#define VIDEO_MEMORY 0xb8000
-
+#define C_White_Black 0x0F
+#define C_White_Red 0x4F
 
 void kernel_main(void)
 {
-    const char *welcome = "Welcome to Micahs Kernel";
-    set_color(0x4F);
+    set_color(0x9F);
     clear_screen();
-    print_string(welcome, -1);
-    print_string("1\t2\t3\t4\t5\t6\t7\t8\t9\t0\t1", -1);
+    print_string("Welcome to Micahs Kernel\n", -1);
+    draw_box(40, 19, 0x4F, 1);
+    draw_box(36, 17, 0xCF, 0);
     return;
 }

@@ -61,8 +61,17 @@ void put_ch(char c)
     }
 }
 
+void set_cursor(int x, int y)
+{
+    cursor_x = x % SCREEN_WIDTH;
+    if (y >= SCREEN_HEIGHT)
+    {
+	y = SCREEN_HEIGHT - 1;
+    }
+    cursor_y = y;
+}
 
-// Clear the screen with a given color
+// Clear the screen
 void clear_screen(void)
 {
     unsigned int i = 0; // Index counter
@@ -73,14 +82,6 @@ void clear_screen(void)
 	screen[i*2+1] = screen_color; // Set the color
 	i = i + 1; // Loop
     }
-    return;
-}
-
-// Clear the screen with a given color
-void color_screen(unsigned int color)
-{
-    screen_color = color;
-    clear_screen();
     return;
 }
 

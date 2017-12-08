@@ -9,6 +9,7 @@
 // Global Variables for printing
 int cursor_x = 0;
 int cursor_y = 0;
+int cursor_col = 0; // When we goto a \n, where to set teh cursor at
 unsigned int screen_color = 0x07;
 char *screen = (char*)VIDEO_MEMORY; // Start of the video array
 unsigned int screen_limit = VIDEO_MEMORY_LIM; // Max indexes for the Vidmem
@@ -24,7 +25,7 @@ void put_ch(char c)
     {
 	case 0x08 :
 	    // Backspace
-	    if(cursor_x != 0)
+	    if(cursor_x != cursor_col)
 		cursor_x = cursor_x - 1;
 	    break; 
 	case 0x09 :
@@ -39,12 +40,12 @@ void put_ch(char c)
 	    break;
 	case '\n' :
 	    // newline
-	    cursor_x = 0;
+	    cursor_x = cursor_col;
 	    cursor_y = cursor_y + 1;
 	    break;
 	case '\r' :
 	    // return
-	    cursor_x = 0;
+	    cursor_x = cursor_col;
 	    break;
 	default :
 	    pos = (cursor_y * SCREEN_WIDTH) + cursor_x; // Calc the new pos
@@ -57,7 +58,7 @@ void put_ch(char c)
     if(cursor_x >= SCREEN_WIDTH)
     {
 	cursor_y = cursor_y + 1;
-	cursor_x = 0;
+	cursor_x = cursor_col;
     }
 }
 
@@ -69,6 +70,16 @@ void set_cursor(int x, int y)
 	y = SCREEN_HEIGHT - 1;
     }
     cursor_y = y;
+}
+
+void set_cursor_col(int x)
+{
+    if(x < SCREEN_WIDTH)
+    {
+	cursor_col = x;
+    } else {
+	cursor_col = 0;
+    }
 }
 
 // Clear the screen

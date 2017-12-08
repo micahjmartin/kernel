@@ -12,6 +12,10 @@ void set_cursor(int x, int y);
 
 void set_color(unsigned int color);
 
+void set_cursor_col(int x);
+
+void put_ch(char ch);
+
 void clear_screen();
 
 void print_string(const char *str, int len);

@@ -10,6 +10,8 @@
 
 void init_cur(void);
 
+void cur_debug(unsigned int color);
+
 void set_color(unsigned int color);
 
 void set_cursor(int x, int y);

@@ -13,15 +13,31 @@
 
 void kernel_main(void)
 {
-    set_color(0x9F);
-    clear_screen();
-    set_cursor_col(10);
-    set_cursor_wrap(15);
+    unsigned int main_bg = 0x9F;
+    set_color(main_bg);
+    clear_screen(); 
+    draw_box(40, 20, 0x4F, 1);
+    draw_box(36, 18, 0xCF, 0);
+    set_cursor(40,7);
+    //set_color(0x9F);
+    set_cursor_col(20);
+    set_cursor_wrap(59);
+    cur_debug(main_bg); 
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
+    print_string("0123456789", -1);
     print_string("Welcome to Micahs Kernel\n", -1);
     print_string("Welcome to Micahs Kernel\n", -1);
-    print_string("Welcome to Micahs Kernel\n", -1);
-    print_string("Welcome to Micahs Kernel\n", -1);
-    draw_box(40, 19, 0x4F, 1);
-    draw_box(36, 17, 0xCF, 0);
     return;
 }

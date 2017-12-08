@@ -9,7 +9,7 @@
 // Global Variables for printing
 int cursor_x = 0;
 int cursor_y = 0;
-int cursor_col = 0; // When we goto a \n, where to set the cursor at
+int IO_CUR_COL = 0; // When we goto a \n, where to set the cursor at
 int IO_CUR_WRAP = SCREEN_WIDTH; // Position to wrap the cursor
 unsigned int screen_color = 0x07;
 char *screen = (char*)VIDEO_MEMORY; // Start of the video array
@@ -20,6 +20,41 @@ void init_cur(void)
     set_cursor(0,0);
     set_cursor_wrap(SCREEN_WIDTH);
     set_cursor_col(0);
+}
+
+void cur_debug(unsigned int color)
+{
+    
+    char str[6] = "\0\0\0\0\0\0";
+    unsigned int tmp_color = screen_color;
+    set_color(color);
+    int tmp_x = cursor_x;
+    int tmp_y = cursor_y;
+    int tmp_wrap = IO_CUR_WRAP;
+    int tmp_col = IO_CUR_COL;
+    set_cursor_col(0);
+    set_cursor_wrap(SCREEN_WIDTH);
+    set_cursor(0,0);
+    
+    print_string("Cursor location: ",-1);
+    itoc(tmp_x, str);
+    print_string(str,-1);
+    
+    print_string(" ",1);
+    itoc(tmp_y, str);
+    print_string(str,-1);
+    
+    print_string("\nCOL: ",-1);
+    itoc(tmp_col, str);
+    print_string(str,-1);
+    print_string(" WRAP: ",-1);
+    itoc(tmp_wrap, str);
+    print_string(str,-1);
+
+    set_color(tmp_color);
+    set_cursor_col(tmp_col);
+    set_cursor_wrap(tmp_wrap);
+    set_cursor(tmp_x, tmp_y);
 }
 
 /*
@@ -33,7 +68,7 @@ void put_ch(char c)
     {
 	case 0x08 :
 	    // Backspace
-	    if(cursor_x != cursor_col)
+	    if(cursor_x != IO_CUR_COL)
 		cursor_x = cursor_x - 1;
 	    break; 
 	case 0x09 :
@@ -48,15 +83,16 @@ void put_ch(char c)
 	    break;
 	case '\n' :
 	    // newline
-	    cursor_x = cursor_col;
+	    cursor_x = IO_CUR_COL;
 	    cursor_y = cursor_y + 1;
 	    break;
 	case '\r' :
 	    // return
-	    cursor_x = cursor_col;
+	    set_cursor_x(IO_CUR_COL);
+	    cursor_x = IO_CUR_COL;
 	    break;
 	default :
-	    pos = (cursor_y * IO_CUR_WRAP) + cursor_x; // Calc the new pos
+	    pos = (cursor_y * SCREEN_WIDTH) + cursor_x; // Calc the new pos
 	    screen[pos*2] = c;
 	    screen[pos*2+1] = screen_color;
 	    cursor_x = cursor_x + 1;
@@ -66,7 +102,7 @@ void put_ch(char c)
     if(cursor_x >= IO_CUR_WRAP)
     {
 	cursor_y = cursor_y + 1;
-	cursor_x = cursor_col;
+	cursor_x = IO_CUR_COL;
     }
 }
 
@@ -77,7 +113,12 @@ void set_cursor(int x, int y)
 }
 void set_cursor_x(int x)
 {
-    cursor_x = x % SCREEN_WIDTH;
+    if(x >= IO_CUR_WRAP)
+    {
+	cursor_x = (x % IO_CUR_WRAP) + IO_CUR_COL;
+    } else {
+	cursor_x = x;
+    }
 }
 void set_cursor_y(int y)
 {
@@ -102,10 +143,12 @@ void set_cursor_col(int x)
 {
     if(x < SCREEN_WIDTH)
     {
-	cursor_col = x;
+	IO_CUR_COL = x;
     } else {
-	cursor_col = 0;
+	IO_CUR_COL = 0;
     }
+    set_cursor_x(IO_CUR_COL);
+    put_ch('\n');
 }
 
 // Clear the screen

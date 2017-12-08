@@ -13,9 +13,13 @@ unsigned int screen_color = 0x07;
 char *screen = (char*)VIDEO_MEMORY; // Start of the video array
 unsigned int screen_limit = VIDEO_MEMORY_LIM; // Max indexes for the Vidmem
 
+/*
+ * Put a character onto the screen wherever the cursor is
+ */
 void put_ch(char c)
 {
     int pos = 0;
+    int num;
     switch(c)
     {
 	case 0x08 :
@@ -24,8 +28,14 @@ void put_ch(char c)
 		cursor_x = cursor_x - 1;
 	    break; 
 	case 0x09 :
-	    // Backspace
-	    cursor_x = (cursor_x + 8) & ~(8 - 1); // Tab only till the next 8
+	    // tab
+	    num = (cursor_x + 8) & ~(8 - 1); // Tab only till the next 8
+	    num = num - cursor_x;
+	    while(num > 0)
+	    {
+		put_ch(' ');
+		num = num - 1;
+	    }
 	    break;
 	case '\n' :
 	    // newline

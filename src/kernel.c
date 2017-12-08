@@ -13,7 +13,7 @@
 
 void kernel_main(void)
 {
-    const char *welcome = "1234567890";
+    const char *welcome = "Welcome to Micahs Kernel";
     set_color(0x4F);
     clear_screen();
     print_string(welcome, -1);

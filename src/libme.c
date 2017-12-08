@@ -33,7 +33,7 @@ void put_ch(char c)
 	    num = num - cursor_x;
 	    while(num > 0)
 	    {
-		put_ch(' ');
+		put_ch('\0');
 		num = num - 1;
 	    }
 	    break;

@@ -34,7 +34,7 @@ void draw_box(int width, int height, unsigned int color, int shadow)
 	    put_ch('\0');
 	    set_cursor(x_start+width-1, y++);
 	}
-	for(j=width-1;j>=0;j--)
+	for(j=width-1;j>0;j--)
 	{
 	    put_ch('\0');
 	    set_cursor(j+x_start,y_start+height);

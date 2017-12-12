@@ -24,6 +24,16 @@ void set_cursor_col(int x);
 
 void set_cursor_wrap(int x);
 
+int get_color(void);
+
+int get_cursor_x(void);
+
+int get_cursor_y(void);
+
+int get_cursor_wrap();
+
+int get_cursor_col();
+
 void put_ch(char ch);
 
 void clear_screen();

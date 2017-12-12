@@ -113,9 +113,9 @@ void set_cursor(int x, int y)
 }
 void set_cursor_x(int x)
 {
-    if(x >= IO_CUR_WRAP)
+    if(x >= SCREEN_WIDTH)
     {
-	cursor_x = (x % IO_CUR_WRAP) + IO_CUR_COL;
+	cursor_x = 0;
     } else {
 	cursor_x = x;
     }
@@ -149,6 +149,31 @@ void set_cursor_col(int x)
     }
     set_cursor_x(IO_CUR_COL);
     put_ch('\n');
+}
+
+int get_color(void)
+{
+    return screen_color;
+}
+
+int get_cursor_x(void)
+{
+    return cursor_x;
+}
+
+int get_cursor_y(void)
+{
+    return cursor_y;
+}
+
+int get_cursor_wrap(void)
+{
+    return IO_CUR_WRAP;
+}
+
+int get_cursor_col(void)
+{
+    return IO_CUR_COL;
 }
 
 // Clear the screen

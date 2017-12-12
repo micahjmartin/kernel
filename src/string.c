@@ -12,7 +12,8 @@ int strlen(const char* str)
 
 void string_reverse(char* str)
 {
-    int len = strlen(str) - 1;
+    int olen = strlen(str);
+    int len = olen -1;
     int i = 0;
     char a;
     char b;
@@ -24,6 +25,7 @@ void string_reverse(char* str)
 	str[len-i] = a;
 	i = i + 1;
     }
+    str[olen] = 0;
 }
 
 void itoc(int i, char* retval)
@@ -36,5 +38,6 @@ void itoc(int i, char* retval)
 	i = i / base;
 	pos = pos + 1;
     }
+    retval[pos] = 0; // Null terminat the string
     string_reverse(retval);
 }
